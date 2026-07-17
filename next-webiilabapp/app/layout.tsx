@@ -1,14 +1,14 @@
-import { Geist, Geist_Mono } from "next/font/google"
+import { Manrope} from "next/font/google"
 
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils";
+import { ClerkProvider } from "@clerk/nextjs";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'})
 
-const fontMono = Geist_Mono({
-  subsets: ["latin"],
-  variable: "--font-mono",
+const manrope = Manrope({
+  subsets: ['latin'],
+  variable: '--font-manrope'
 })
 
 export default function RootLayout({
@@ -17,14 +17,22 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
+    <ClerkProvider>
     <html
       lang="en"
       suppressHydrationWarning
-      className={cn("antialiased", fontMono.variable, "font-sans", geist.variable)}
+      className={cn("antialiased", manrope.variable, "font-sans")}
     >
-      <body>
-        <ThemeProvider>{children}</ThemeProvider>
+      <body suppressHydrationWarning >
+        <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange>
+          {children}
+          </ThemeProvider>
       </body>
     </html>
+    </ClerkProvider>
   )
 }

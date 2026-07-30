@@ -5,6 +5,7 @@ import { ArrowLeft, CloudLightningIcon, LightbulbIcon, Zap } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 import React from 'react'
 import YellowIcon from '../YellowIcon'
+import CreateWebinarButton from '../CreateWebinarButton'
 
 type Props = {
     user: User
@@ -21,7 +22,7 @@ const Header = ({user}: Props) => {
             <Button
             className= 'bg-primary/10 border border-border rounded-xl'
             variant={'outline'}
-            onClick={ ()=> router.push('/webinar')}
+            onClick={ ()=> router.push('/webinars')}
             >
 
                 <ArrowLeft /> Back to Webinars
@@ -38,6 +39,9 @@ const Header = ({user}: Props) => {
           <YellowIcon>
             <Zap  />
           </YellowIcon>
+
+
+          <CreateWebinarButton />
         </div>
 
     </div>

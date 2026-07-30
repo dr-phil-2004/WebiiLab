@@ -29,7 +29,11 @@ const layout = async ({ children }: Props) => {
 
                 {/* Header*/}
                 <Header user={userExists.user}/>
+                <div className="flex-1 py-10">
+
             {children}
+
+                </div>
             </div>
 
         </div>

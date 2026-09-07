@@ -4,17 +4,23 @@ import React, { useEffect } from 'react'
 import { useWebinarStore } from '@/store/useWebinarStore'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { CreditCard, PhoneCall, Sparkles, AlertCircle } from 'lucide-react'
+import { CreditCard, PhoneCall, Sparkles, AlertCircle, Search } from 'lucide-react'
 import { CtaTypeEnum } from '@/lib/generated/prisma/enums'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import Stripe from 'stripe'
 
 const MOCK_AGENTS = [
   { id: 'a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d', name: 'Lead Qualification Agent (Voice & Chat)' },
   { id: 'b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e', name: 'Sales Closer Agent (High Ticket)' },
   { id: 'c3d4e5f6-a7b8-9c0d-1e2f-3a4b5c6d7e8f', name: 'Product Demo & FAQ Assistant' }
 ]
+type Props={
+  stripeProducts: Stripe.Product[] | []
+}
 
-const CtaStep = () => {
+const CtaStep = ({stripeProducts}: Props) => {
   const { formData, updateCTAField, validation } = useWebinarStore()
+  const {ctaLabel, tags, aiAgent,priceId, ctaType} =formData.cta
   const errors = validation.cta.errors
 
   // Prefill AI Agent if empty
@@ -38,6 +44,9 @@ const CtaStep = () => {
     } else if (type === 'BOOK_A_CALL' && !formData.cta.ctaLabel) {
       updateCTAField('ctaLabel', 'Book a Call')
     }
+  }
+  const handleProductChange =(value:string)=>{
+    updateCTAField('priceId',value)
   }
 
   return (
@@ -168,6 +177,53 @@ const CtaStep = () => {
         {errors.priceId && (
           <p className="text-xs text-red-400 font-medium">{errors.priceId}</p>
         )}
+      </div>
+
+      <div className="space-y-2">
+        <Label>Attach an Product</Label>
+        <div className="relative">
+          <div className="mb-2">
+            <div className="relative">
+              <Search className="absolute left-3 top-2 5 h-4 w-4 text-gray-500 " />
+              <Input placeholder="Search Agents "   
+              className='pl-9 !bg-background/50 border border-input '
+              />
+            </div>
+          </div>
+          <Select value={priceId}
+          onValueChange={handleProductChange}
+          
+          >
+            <SelectTrigger className=" w-full  bg-background/50 border border-input">
+              <SelectValue placeholder="Select an  Product" />
+
+
+            </SelectTrigger>
+
+            <SelectContent className='bg-background border border-input max-h-48 '>
+              {stripeProducts.length > 0 ?   (stripeProducts?.map((product)=>(<SelectItem
+              key={product.id}
+              value={product?.default_price?.toString() || ''}
+              className='!bg-background/50 hover:bg-white/50 '
+              >
+                {product.name}
+              </SelectItem>))):(
+                <SelectItem
+                value=''
+                disabled
+                >
+
+                  Create an Product in Stripe
+                  
+                </SelectItem>
+              )}
+              
+            </SelectContent>
+
+
+            
+          </Select>
+        </div>
       </div>
     </div>
   )

@@ -1,6 +1,6 @@
 import UserInfoCard from '@/components/UserInfoCard'
 import { Badge } from '@/components/ui/badge'
-import { Attendee } from '@/lib/generated/prisma/client'
+import type { Attendee } from '@/lib/generated/prisma/client'
 import React from 'react'
 
 type Props = {

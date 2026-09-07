@@ -10,10 +10,13 @@ import BasicInfoStep from './BasicInfoStep'
 import CtaStep from './CtaStep'
 import AdditionalInfoStep from './AdditionalInfoStep'
 import { toast } from 'sonner'
+import Stripe from 'stripe'
 
-type Props = {}
+type Props = {
+  stripeProducts: Stripe.Product[] | []
+}
 
-const CreateWebinarButton = (props: Props) => {
+const CreateWebinarButton = ({stripeProducts}: Props) => {
     const { isModalOpen, setModalOpen, isCompleted, setCompleted, resetForm } = useWebinarStore()
     const [webinarLink, setWebinarLink] = useState('')
 
@@ -28,7 +31,9 @@ const CreateWebinarButton = (props: Props) => {
             id: 'cta',
             title: 'Call to Action',
             description: 'Set up your Call to Action and AI agent details',
-            component: <CtaStep />
+            component: <CtaStep assistants={[]}
+              stripeProducts={stripeProducts}
+            />
         },
         {
             id: 'additionalInfo',

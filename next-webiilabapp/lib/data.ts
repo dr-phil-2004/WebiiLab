@@ -86,7 +86,7 @@ export const potentialCustomer = [
   },
 ]
 
-export const subscriptionPriceId = `price_1RLtR0Fj9oKEERu1zShQbtgG`
+export const subscriptionPriceId = `price_1U0NRQJzyrYyfrduNXpAuXFy`
 
 export const aiAgentPrompt = `# Lead Qualification & Nurturing Agent Prompt
 

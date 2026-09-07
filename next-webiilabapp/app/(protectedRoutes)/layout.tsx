@@ -4,6 +4,7 @@ import { auth } from '@clerk/nextjs/server'
 import SideBar from '@/components/ReusableComponents/LayoutComponents/SideBar'
 import Header from '@/components/ReusableComponents/LayoutComponents/Header'
 import { onAuthenticateUser } from '../actions/auth'
+import {getAllproductsFromStripe }from '../actions/stripe'
 
 type Props = {
     children: React.ReactNode
@@ -20,6 +21,8 @@ const layout = async ({ children }: Props) => {
         redirect('/sign-in')
     }
 
+    const stripe = await getAllproductsFromStripe()
+
     return (
         <div className='flex w-full min-h-screen'>
             {/* Sidebar  */}
@@ -28,7 +31,7 @@ const layout = async ({ children }: Props) => {
              overflow-auto px-4 scrollbar-hide container mx-auto">
 
                 {/* Header*/}
-                <Header user={userExists.user}/>
+                <Header user={userExists.user} stripeProduct={stripe.products || []}/>
                 <div className="flex-1 py-10">
 
             {children}

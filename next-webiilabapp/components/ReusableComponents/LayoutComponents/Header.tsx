@@ -1,19 +1,25 @@
 'use client'
 import { Button } from '@/components/ui/button'
-import { User } from '@/lib/generated/prisma/client'
+import type { User } from '@/lib/generated/prisma/client'
 import { ArrowLeft, CloudLightningIcon, LightbulbIcon, Zap } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 import React from 'react'
 import YellowIcon from '../YellowIcon'
 import CreateWebinarButton from '../CreateWebinarButton'
+import Stripe from 'stripe'
+import { StripeElements } from '@/components/Stripe/Elements'
+import { SubscriptionModal } from '../SubscriptionModal'
 
 type Props = {
     user: User
+    stripeProduct: Stripe.Product[] | []
 }
 
-const Header = ({user}: Props) => {
+
+const Header = ({user, stripeProduct}: Props) => {
     const pathname = usePathname()
     const router = useRouter()
+    
 
   return (
     <div className='w-full px-4 pt-10 sticky top-0 z-10 flex justify-between items-center
@@ -35,13 +41,20 @@ const Header = ({user}: Props) => {
             {pathname.split('/')[1]}
           </div>
         )}
+
         <div className="flex gap-6  items-center flex-wrap">
           <YellowIcon>
             <Zap  />
           </YellowIcon>
+          {user.subscription ? (<CreateWebinarButton stripeProducts={stripeProduct} />
+        ) : (
+          <StripeElements>
+            <SubscriptionModal user={user} />
+          </StripeElements>
+        )}
 
 
-          <CreateWebinarButton />
+          {/* <CreateWebinarButton stripeProducts={stripeProduct} /> */}
         </div>
 
     </div>

@@ -24,6 +24,7 @@ export const getWebinarAttendance = async(webinarId:string,
                 id:true,
                 ctaType: true,
                 tags:true,
+                presenter:true,
                 _count: {
                     select:{
                         attendances:true,
@@ -129,7 +130,9 @@ export const getWebinarAttendance = async(webinarId:string,
                         email: attendance.user.email,
                         attendedAt: attendance.joinedAt,
                         stripeConnectId: null, 
-                        callStatus: attendance.user.callStatus
+                        callStatus: attendance.user.callStatus,
+                        createdAt: attendance.user.createdAt,
+                        updatedAt: attendance.user.updatedAt,
                     }))
                 }
             }
@@ -140,6 +143,7 @@ export const getWebinarAttendance = async(webinarId:string,
             success:true,
             data: result,
             ctaType:webinar.ctaType,
+            presenter: webinar.presenter,
             webinarTags:webinar.tags || []
         }
         
@@ -155,3 +159,130 @@ export const getWebinarAttendance = async(webinarId:string,
     }
     
 }
+
+export const registerToWaitingList = async(webinarId: string, name: string, email: string)=>{
+    try {
+
+        if(!webinarId || !email){
+            return{
+                success:false,
+                status:400,
+                message:'Missing require parameters'
+            }
+        }
+        const webinar = await prismaClient.webinar.findUnique({
+            where:{
+                id:webinarId
+            },
+            // select:{
+            //     id:true,
+            //     ctaType:true,
+            //     tags:true,
+            //     status: true,
+            // }
+        })
+        if(!webinar){
+            return{
+                success:false,
+                status:404,
+                message:'Webinar not found'
+            }
+        }
+
+        let attendee = await prismaClient.attendee.findUnique({
+            where:{email: email}
+        })
+
+        if(!attendee){
+            attendee = await prismaClient.attendee.create({
+                data:{email, name},
+            })
+        }
+     
+        const existingAttendance = await prismaClient.attendance.findFirst({
+            where:{
+                attendeeId: attendee.id,
+                webinarId: webinarId,
+            },
+            include:{
+                user:true,
+                
+            },
+            
+        })
+        if(existingAttendance){
+            return{
+                success:false,
+                status:400,
+                message:'You have already registered for this webinar'
+            }
+        }
+        const attendance = await prismaClient.attendance.create({
+            data:{
+                webinarId: webinarId,
+                attendeeId: attendee.id,
+                attendedType:AttendedTypeEnum.REGISTERED,
+            },
+            include:{
+                user:true,
+            }
+        })
+        revalidatePath(`/live-webinar/${webinarId}`)
+        return{
+            success:true,
+            data: attendance,
+            status:200,
+            message:'You have successfully registered for this webinar'
+        }
+        
+        
+    } catch (error) {
+        console.error('Failed to register for waiting list', error)
+        return{
+            success:false,
+            status:500,
+            message:'Failed to register for waiting list',
+            
+        }
+        
+    }
+}
+
+
+export const changeAttendanceType = async(
+    attendeeId:string, 
+    webinarId: string,
+    attendedType: AttendedTypeEnum
+    ) =>{
+        try {
+
+            const attendance =await prismaClient.attendance.update({
+                where:{
+                    attendeeId_webinarId:{attendeeId, webinarId},
+                    
+                },
+            
+            data:{
+                attendedType,
+            },
+        
+        })
+        return{
+            success:true,
+            data: attendance,
+            status:200,
+            message:'Attendance type changed successfully',
+            
+        }
+            
+            
+        } catch (error) {
+            console.error('Error updating attendance type:', error)
+            return{
+                success:false,
+                status:500,
+                message:'Failed to update attendance type',
+            }
+        }
+        
+    }

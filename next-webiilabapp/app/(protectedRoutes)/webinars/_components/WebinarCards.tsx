@@ -1,4 +1,4 @@
-import { Webinar } from '@/lib/generated/prisma/client'
+import type { Webinar } from '@/lib/generated/prisma/client'
 import { format } from 'date-fns'
 import { Calendar } from 'lucide-react'
 import Image from 'next/image'

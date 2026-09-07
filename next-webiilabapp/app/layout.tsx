@@ -4,6 +4,7 @@ import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils";
 import { ClerkProvider } from "@clerk/nextjs";
+import { Toaster } from "@/components/ui/sonner";
 
 
 const manrope = Manrope({
@@ -30,6 +31,8 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange>
           {children}
+          <Toaster />
+          
           </ThemeProvider>
       </body>
     </html>

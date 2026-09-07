@@ -1,4 +1,5 @@
 'use client'
+import Logo from '@/components/ui/logo'
 import { Tooltip, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { sidebarData} from '@/lib/data'
 import { UserButton } from '@clerk/nextjs'
@@ -17,7 +18,7 @@ const SideBar = (props: Props) => {
     gap-10
     '> 
         <div className="">
-            <Home />
+            <Logo />
         </div>
         <div className="w-full h-full justify-between items-center flex flex-col">
             <div className="w-ful h-fit flex flex-col gap-4 items-center justify-center"> 

@@ -1,4 +1,4 @@
-import { AttendedTypeEnum } from "./generated/prisma/client"
+import { AttendedTypeEnum, User, Webinar } from "./generated/prisma/client"
 
 export type ValidationErrors = Record<string, string>
 
@@ -93,5 +93,9 @@ export type AttendanceData = {
 export type PipelineData = {
     data: Record<AttendedTypeEnum, AttendanceData>
     tags: string[]
+}
+
+export type WebinarWithPresenter= Webinar & {
+    presenter: User
 }
 

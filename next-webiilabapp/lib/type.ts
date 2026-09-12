@@ -99,3 +99,11 @@ export type WebinarWithPresenter= Webinar & {
     presenter: User
 }
 
+export type StreamRecording = {
+    filename: string;
+    url:string;
+    start_time:Date;
+    end_time:Date;
+    session_id: string;
+}
+

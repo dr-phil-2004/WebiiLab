@@ -1,6 +1,7 @@
 'use server'
-import {Attendee} from '@/lib/generated/prisma/client'
+import {Attendee, Webinar} from '@/lib/generated/prisma/client'
 import { StringFieldRefInput } from '@/lib/generated/prisma/internal/prismaNamespace'
+import { prismaClient } from '@/lib/prismaClient'
 import { getStreamClient } from '@/lib/stream/getStreamClient'
 import { StreamVideoClient, UserRequest } from '@stream-io/node-sdk'
 
@@ -60,9 +61,37 @@ export const getTokenForHost = async(
 }
 
 
-export const createAndStartStream = async (webinarId: string)=>{
+export const createAndStartStream = async (webinar: Webinar)=>{
     try {
-        const checkWebinar = await prismaClient.webinar.findUnique({})
+        const checkWebinar = await prismaClient.webinar.findMany({
+            where: {
+                presenterId: webinar.presenterId,
+                webinarStatus: 'LIVE'
+            }
+
+        })
+
+        if(checkWebinar.length > 0){
+            throw new Error('You already have a live stream running ')
+        }
+
+        const call = getStreamClient.video.call('livestream', webinar.id)
+
+        await call.getOrCreate({
+            data:{
+                created_by_id: webinar.presenterId,
+                members: [
+                    {
+                        user_id:webinar.presenterId,
+                        role:'host'
+                    }
+                ]
+            }
+
+        })
+            call.goLive()
+        return call
+        console.log('stream created and started successfully ')
     } catch (error) {
         
     }

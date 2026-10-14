@@ -11,6 +11,8 @@ type Props = {
 
 export const StripeElements = ({ children, connectedAccountId }: Props) => {
   return (
-    <Elements stripe={getStripePromise(connectedAccountId)}>{children}</Elements>
+    <Elements stripe={getStripePromise(connectedAccountId)}>
+      {children}
+    </Elements>
   )
 }

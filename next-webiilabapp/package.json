@@ -7,12 +7,13 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint --max-warnings 48",
+    "lint": "eslint --max-warnings 0",
     "format": "prettier --write \"**/*.{ts,tsx}\"",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "db:generate": "prisma generate",
-    "verify": "npm run db:generate && npm run typecheck && npm run lint && npm run test"
+    "verify": "npm run db:generate && npm run format:check && npm run typecheck && npm run lint && npm run test",
+    "format:check": "prettier --check \"**/*.{ts,tsx}\""
   },
   "dependencies": {
     "@base-ui/react": "^1.6.0",
@@ -55,6 +56,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.6",
+    "eslint-plugin-unused-imports": "^4.4.1",
     "prettier": "^3.8.3",
     "prettier-plugin-tailwindcss": "^0.8.0",
     "prisma": "^7.8.0",

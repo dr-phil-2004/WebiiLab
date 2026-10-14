@@ -60,12 +60,14 @@ repeating it in chat:
 3. **This file** — only for what can't be checked mechanically.
 4. **Code review** — to discover new rules, not to enforce old ones.
 
-Lint warnings are capped (`--max-warnings` in `package.json`). When you remove
-warnings, lower the cap; never raise it.
+Lint runs with `--max-warnings 0`: a warning fails CI like an error. Unused
+imports and variables are errors; `npm run lint -- --fix` removes unused imports.
+Formatting is checked too: run `npm run format` before committing.
 
 ## Known debt (don't copy these patterns)
 
 - `RenderWebinar` currently renders nothing (refactor in progress).
-- `DialogContent`'s `isHideCloseButton={true}` actually **shows** the button.
 - `CountdownTimer` ticks every 50 ms; once a second is enough.
-- Remaining lint warnings are mostly unused imports (`import React`).
+- The subscription check in `createWebinar` is commented out on purpose:
+  any signed-in user can create webinars. Ask before re-enabling it.
+- Don't leave commented-out code anywhere else: Git keeps the history.

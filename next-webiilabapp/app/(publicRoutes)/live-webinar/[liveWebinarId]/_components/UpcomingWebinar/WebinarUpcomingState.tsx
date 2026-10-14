@@ -1,125 +1,121 @@
-'use client'
-import type { User, Webinar } from '@/lib/generated/prisma/client'
-import { WebinarStatusEnum } from '@/lib/generated/prisma/enums'
-import React, { useState } from 'react'
-import Image from 'next/image'
-import CountdownTimer from './CountdownTimer'
-import WaitListComponent from './WaitListComponent'
-import { Button } from '@/components/ui/button'
-import { Calendar, Clock, Loader2 } from 'lucide-react'
-import { changeWebinarStatus } from '@/app/actions/webinar'
-import { toast } from 'sonner'
-import { useRouter } from 'next/navigation'
-import { format } from 'date-fns'
-
+"use client"
+import type { User, Webinar } from "@/lib/generated/prisma/client"
+import { WebinarStatusEnum } from "@/lib/generated/prisma/enums"
+import React, { useState } from "react"
+import Image from "next/image"
+import CountdownTimer from "./CountdownTimer"
+import WaitListComponent from "./WaitListComponent"
+import { Button } from "@/components/ui/button"
+import { Calendar, Clock, Loader2 } from "lucide-react"
+import { changeWebinarStatus } from "@/app/actions/webinar"
+import { toast } from "sonner"
+import { useRouter } from "next/navigation"
+import { format } from "date-fns"
 
 type Props = {
-    webinar: Webinar,
-    currentUser : User | null
+  webinar: Webinar
+  currentUser: User | null
 }
 
-const WebinarUpcomingState = ({webinar, currentUser}: Props) => {
-
-    const [loading, setLoading] = useState(false)
-    const router = useRouter()
-    const handleStartWebinar=async()=>{
-        setLoading(true)
-        try {
-            const res= await  changeWebinarStatus(webinar.id, 'LIVE')
-            if(!res.success){
-              throw new Error(res.message)
-            }
-            toast.success("Webinar started successfully")
-            router.refresh()
-            
-        } catch (error) {
-            console.log(error)
-            toast.error("Failed to start webinar")
-        } finally{
-            setLoading(false)
-        }
+const WebinarUpcomingState = ({ webinar, currentUser }: Props) => {
+  const [loading, setLoading] = useState(false)
+  const router = useRouter()
+  const handleStartWebinar = async () => {
+    setLoading(true)
+    try {
+      const res = await changeWebinarStatus(webinar.id, "LIVE")
+      if (!res.success) {
+        throw new Error(res.message)
+      }
+      toast.success("Webinar started successfully")
+      router.refresh()
+    } catch (error) {
+      console.error(error)
+      toast.error("Failed to start webinar")
+    } finally {
+      setLoading(false)
     }
-  return <div className="w-full min-h-screen mx-auto max-w-[400px] flex flex-col justify-center items-center gap-8 py-20 ">
-    <div className="space-y-8">
-        <p className="text-3xl font-semibold text-stone text-center">
-            Seems like you&apos;re a little early
+  }
+  return (
+    <div className="mx-auto flex min-h-screen w-full max-w-[400px] flex-col items-center justify-center gap-8 py-20">
+      <div className="space-y-8">
+        <p className="text-stone text-center text-3xl font-semibold">
+          Seems like you&apos;re a little early
         </p>
         <CountdownTimer
-        targetDate={new Date(webinar.startTime)}
-        className="text-center"
-        webinarId={webinar.id}
-        webinarStatus={webinar.webinarStatus}
-        
-        /> 
-    </div>
-    <div className="space-y-6 w-full h-full flex justify-center items-center flex-col">
-      <div className="w-full max-w-md aspect-[4/3] relative rounded-4xl overflow-hidden mb-6">
-      <Image 
-      src={"/darkthumbnail.png"}
-      alt={webinar.title}
-      fill
-      className='object-cover'
-      priority
-      
-      
-        
-      
-      
-      />
+          targetDate={new Date(webinar.startTime)}
+          className="text-center"
+          webinarId={webinar.id}
+          webinarStatus={webinar.webinarStatus}
+        />
       </div>
-      {webinar?.webinarStatus === WebinarStatusEnum.SCHEDULED ? (
-        
-        <WaitListComponent webinarId={webinar.id} webinarStatus="SCHEDULED" />
-        
-        ):webinar?.webinarStatus === WebinarStatusEnum.WAITING_ROOM?(
+      <div className="flex h-full w-full flex-col items-center justify-center space-y-6">
+        <div className="relative mb-6 aspect-[4/3] w-full max-w-md overflow-hidden rounded-4xl">
+          <Image
+            src={"/darkthumbnail.png"}
+            alt={webinar.title}
+            fill
+            className="object-cover"
+            priority
+          />
+        </div>
+        {webinar?.webinarStatus === WebinarStatusEnum.SCHEDULED ? (
+          <WaitListComponent webinarId={webinar.id} webinarStatus="SCHEDULED" />
+        ) : webinar?.webinarStatus === WebinarStatusEnum.WAITING_ROOM ? (
           <>
-          {currentUser?.id === webinar?.presenterId ? (
-            <Button
-            className='w-full max-w-[300px] font-semibold '
-            onClick={handleStartWebinar}
-            disabled={loading}
-            
-            >
-              {loading ? (
-                <><Loader2 className='mr-2 h-4 w-4 animate-spin'/>Starting...</>
-              ):("Start")}
-
-            </Button>
-          ):        <WaitListComponent webinarId={webinar.id} webinarStatus="WAITING_ROOM" />
-}
-          
+            {currentUser?.id === webinar?.presenterId ? (
+              <Button
+                className="w-full max-w-[300px] font-semibold"
+                onClick={handleStartWebinar}
+                disabled={loading}
+              >
+                {loading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Starting...
+                  </>
+                ) : (
+                  "Start"
+                )}
+              </Button>
+            ) : (
+              <WaitListComponent
+                webinarId={webinar.id}
+                webinarStatus="WAITING_ROOM"
+              />
+            )}
           </>
-          
-        ):webinar?.webinarStatus === WebinarStatusEnum.LIVE ? (
+        ) : webinar?.webinarStatus === WebinarStatusEnum.LIVE ? (
           <WaitListComponent webinarId={webinar.id} webinarStatus="LIVE" />
-        ):webinar?.webinarStatus === WebinarStatusEnum.CANCELLED? (
-          <p className='text-xl text-foreground text-center font-semibold'>Webinar Cancelled</p>
-        ):(<Button> Ended</Button>)}
-    </div>
-    <div className="text-center space-y-4">
-      <h3 className="text-2xl font-semibold text-primary">{webinar?.title}</h3>
-      <p className="text-muted-foreground  text-xs ">{webinar.description}</p>
-      <div className="w-full justify-center flex gap-2 flex-wrap items-center">
-        <Button
-        variant={"outline"}
-        className='rounded-md bg-secondary backdrop-blur-2xl'
-        >
-          <Calendar  className='mr-2'/>
-          {format(new Date(webinar.startTime), 'dd:mm:yyyy')}
-
-        </Button>
-                <Button
-        variant={"outline"}
-        
-        >
-          <Clock  className='mr-2'/>
-          {format(new Date(webinar.startTime), 'hh:mm a')}
-
-        </Button>
-
+        ) : webinar?.webinarStatus === WebinarStatusEnum.CANCELLED ? (
+          <p className="text-center text-xl font-semibold text-foreground">
+            Webinar Cancelled
+          </p>
+        ) : (
+          <Button> Ended</Button>
+        )}
+      </div>
+      <div className="space-y-4 text-center">
+        <h3 className="text-2xl font-semibold text-primary">
+          {webinar?.title}
+        </h3>
+        <p className="text-xs text-muted-foreground">{webinar.description}</p>
+        <div className="flex w-full flex-wrap items-center justify-center gap-2">
+          <Button
+            variant={"outline"}
+            className="rounded-md bg-secondary backdrop-blur-2xl"
+          >
+            <Calendar className="mr-2" />
+            {format(new Date(webinar.startTime), "dd:mm:yyyy")}
+          </Button>
+          <Button variant={"outline"}>
+            <Clock className="mr-2" />
+            {format(new Date(webinar.startTime), "hh:mm a")}
+          </Button>
+        </div>
       </div>
     </div>
-  </div>
+  )
 }
 
 export default WebinarUpcomingState

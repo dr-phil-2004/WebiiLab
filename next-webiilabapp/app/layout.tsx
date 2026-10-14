@@ -1,15 +1,14 @@
-import { Manrope} from "next/font/google"
+import { Manrope } from "next/font/google"
 
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
-import { cn } from "@/lib/utils";
-import { ClerkProvider } from "@clerk/nextjs";
-import { Toaster } from "@/components/ui/sonner";
-
+import { cn } from "@/lib/utils"
+import { ClerkProvider } from "@clerk/nextjs"
+import { Toaster } from "@/components/ui/sonner"
 
 const manrope = Manrope({
-  subsets: ['latin'],
-  variable: '--font-manrope'
+  subsets: ["latin"],
+  variable: "--font-manrope",
 })
 
 export default function RootLayout({
@@ -19,23 +18,23 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-    <html
-      lang="en"
-      suppressHydrationWarning
-      className={cn("antialiased", manrope.variable, "font-sans")}
-    >
-      <body suppressHydrationWarning >
-        <ThemeProvider
+      <html
+        lang="en"
+        suppressHydrationWarning
+        className={cn("antialiased", manrope.variable, "font-sans")}
+      >
+        <body suppressHydrationWarning>
+          <ThemeProvider
             attribute="class"
             defaultTheme="system"
             enableSystem
-            disableTransitionOnChange>
-          {children}
-          <Toaster />
-          
+            disableTransitionOnChange
+          >
+            {children}
+            <Toaster />
           </ThemeProvider>
-      </body>
-    </html>
+        </body>
+      </html>
     </ClerkProvider>
   )
 }

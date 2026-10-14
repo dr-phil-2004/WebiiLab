@@ -1,38 +1,28 @@
-import type { User, Webinar } from '@/lib/generated/prisma/client'
-import { WebinarWithPresenter } from '@/lib/type'
+import type { User } from "@/lib/generated/prisma/client"
+import { WebinarWithPresenter } from "@/lib/type"
 import {
-  LivestreamPlayer,
   StreamVideo,
   StreamVideoClient,
-  User as StreamUser
-} from "@stream-io/video-react-sdk";
-import React, { useEffect, useState } from 'react'
-import CustomLiveStreamPlayer from './CustomLiveStreamPlayer';
-import { getTokenForHost } from '@/app/actions/streamio';
+  User as StreamUser,
+} from "@stream-io/video-react-sdk"
+import React, { useEffect, useState } from "react"
+import CustomLiveStreamPlayer from "./CustomLiveStreamPlayer"
+import { getTokenForHost } from "@/app/actions/streamio"
 
 type Props = {
-    apiKey: string,
-   
-    callId: string,
-    user: User ,
-    userId: string,
-    webinar: WebinarWithPresenter
+  apiKey: string
+
+  callId: string
+  user: User
+  userId: string
+  webinar: WebinarWithPresenter
 }
-const hostUser: StreamUser= {id:process.env.NEXT_PUBLIC_STREAM_USER_ID!}
-const LiveStreamState = ({apiKey, callId, user, userId, webinar}: Props) => {
-  // const hostUser = {
-  //   id: userId,
-  //   name: user?.name || 'Host',
-  //   image: user?.profileImage || undefined,
-  //   type: 'authenticated' as const,
-  // }
-  const [hostToken, setHostToken ] = useState<string | null>()
-    const [client, setClient] = useState<StreamVideoClient | null>(null)
+const LiveStreamState = ({ apiKey, callId, user, userId, webinar }: Props) => {
+  const [hostToken, setHostToken] = useState<string | null>(null)
+  const [client, setClient] = useState<StreamVideoClient | null>(null)
 
-  // const client = new StreamVideoClient({ apiKey, token, user: hostUser })
-
-  useEffect(()=>{
-    const init = async()=>{
+  useEffect(() => {
+    const init = async () => {
       try {
         const token = await getTokenForHost(
           webinar.presenterId,
@@ -40,37 +30,41 @@ const LiveStreamState = ({apiKey, callId, user, userId, webinar}: Props) => {
           webinar.presenter.profileImage
         )
 
-
-        const host: StreamUser ={
+        const host: StreamUser = {
           id: webinar.presenterId,
           name: webinar.presenter.name,
-          image: webinar.presenter.profileImage
+          image: webinar.presenter.profileImage,
         }
 
-        const streamClient = new StreamVideoClient(
-         {
+        const streamClient = new StreamVideoClient({
           apiKey,
-          user: hostUser,
+          // Must be the user the token was issued for (presenterId),
+          // otherwise Stream rejects the connection.
+          user: host,
           token,
+        })
 
-         }
-        )
-
+        setHostToken(token)
         setClient(streamClient)
       } catch (error) {
-        
+        console.error("Failed to start the host livestream", error)
       }
     }
     init()
   }, [apiKey, webinar])
-  if(!client || !hostToken) return null
+  if (!client || !hostToken) return null
   return (
-    <StreamVideo client={client} >
-      <CustomLiveStreamPlayer callId={callId} callType='livestream' username={user.name} webinar={webinar} token={hostToken} userId={userId} />
-
+    <StreamVideo client={client}>
+      <CustomLiveStreamPlayer
+        callId={callId}
+        callType="livestream"
+        username={user.name}
+        webinar={webinar}
+        token={hostToken}
+        userId={userId}
+      />
     </StreamVideo>
   )
-
 }
 
 export default LiveStreamState

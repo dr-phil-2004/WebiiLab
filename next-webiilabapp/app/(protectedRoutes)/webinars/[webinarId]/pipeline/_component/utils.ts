@@ -1,9 +1,8 @@
-import { AttendedTypeEnum } from "@/lib/generated/prisma/enums";
+import { AttendedTypeEnum } from "@/lib/generated/prisma/enums"
 
-export const formatColumnTitle = (columnType: AttendedTypeEnum):
-string => {
-    return columnType
-    .split('_')
-    .map((word)=> word.charAt(0) + word.slice(1).toLowerCase())
+export const formatColumnTitle = (columnType: AttendedTypeEnum): string => {
+  return columnType
+    .split("_")
+    .map((word) => word.charAt(0) + word.slice(1).toLowerCase())
     .join()
 }

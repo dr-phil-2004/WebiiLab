@@ -10,11 +10,6 @@ type Props = {
 }
 
 const layout = async ({ children }: Props) => {
-  // const { userId } = await auth()
-
-  // if (!userId) {
-  //     redirect('/')
-  // }
   const userExists = await onAuthenticateUser()
   if (!userExists.user) {
     redirect("/sign-in")

@@ -236,7 +236,7 @@ export const createCheckoutLink = async (
       success: true,
     }
   } catch (error) {
-    console.log("Error creating checkout link ", error)
+    console.error("Error creating checkout link", error)
     return {
       error: "Error creating checkout link ",
       status: 500,

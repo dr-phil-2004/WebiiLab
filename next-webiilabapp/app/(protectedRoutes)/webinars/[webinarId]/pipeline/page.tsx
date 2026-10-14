@@ -55,53 +55,6 @@ export const PipelineIcon = ({ className }: { className?: string }) => (
   </svg>
 )
 
-// Données fictives pour l'aperçu de la pipeline (ctaType BUY_NOW)
-// const buyNowWebinarAttendanceData = {
-//     success: true,
-//     data: {
-//         [AttendedTypeEnum.REGISTERED]: {
-//             count: 3,
-//             users: [
-//                 { id: 'u1', name: 'Alice Martin', email: 'alice@example.com' },
-//                 { id: 'u2', name: 'Bob Dupont',   email: 'bob@example.com' },
-//                 { id: 'u3', name: 'Clara Leroy',  email: 'clara@example.com' },
-//             ],
-//         },
-//         [AttendedTypeEnum.ATTENDED]: {
-//             count: 2,
-//             users: [
-//                 { id: 'u4', name: 'David Moreau', email: 'david@example.com' },
-//                 { id: 'u5', name: 'Eva Bernard',  email: 'eva@example.com' },
-//             ],
-//         },
-//         [AttendedTypeEnum.ADDED_TO_CART]: {
-//             count: 2,
-//             users: [
-//                 { id: 'u6', name: 'Félix Garnier', email: 'felix@example.com' },
-//                 { id: 'u7', name: 'Grace Petit',   email: 'grace@example.com' },
-//             ],
-//         },
-//         [AttendedTypeEnum.FOLLOW_UP]: {
-//             count: 1,
-//             users: [
-//                 { id: 'u8', name: 'Hugo Simon', email: 'hugo@example.com' },
-//             ],
-//         },
-//         [AttendedTypeEnum.BREAKOUT_ROOM]: {
-//             count: 0,
-//             users: [],
-//         },
-//         [AttendedTypeEnum.CONVERTED]: {
-//             count: 1,
-//             users: [
-//                 { id: 'u9', name: 'Inès Thomas', email: 'ines@example.com' },
-//             ],
-//         },
-//     } as Record<AttendedTypeEnum, AttendanceData>,
-//     ctaType: 'BUY_NOW',
-//     webinarTags: ['Marketing', 'SaaS', 'Growth'],
-// };
-
 type Props = {
   params: Promise<{ webinarId: string }>
 }
@@ -121,7 +74,6 @@ const formatColumnTitle = (type: string): string => {
 const page = async ({ params }: Props) => {
   const { webinarId } = await params
   const pipelineData = await getWebinarAttendance(webinarId)
-  // const pipelineData = buyNowWebinarAttendanceData;
 
   if (!pipelineData.data) {
     return (

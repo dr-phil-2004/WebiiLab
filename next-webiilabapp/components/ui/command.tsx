@@ -55,7 +55,7 @@ function CommandDialog({
           "top-1/3 translate-y-0 overflow-hidden rounded-xl! p-0",
           className
         )}
-        isHideCloseButton={showCloseButton}
+        showCloseButton={showCloseButton}
       >
         {children}
       </DialogContent>

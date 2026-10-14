@@ -42,10 +42,10 @@ function DialogOverlay({
 function DialogContent({
   className,
   children,
-  isHideCloseButton = true,
+  showCloseButton = true,
   ...props
 }: DialogPrimitive.Popup.Props & {
-  isHideCloseButton?: boolean
+  showCloseButton?: boolean
 }) {
   return (
     <DialogPortal>
@@ -59,7 +59,7 @@ function DialogContent({
         {...props}
       >
         {children}
-        {isHideCloseButton && (
+        {showCloseButton && (
           <DialogPrimitive.Close
             data-slot="dialog-close"
             render={

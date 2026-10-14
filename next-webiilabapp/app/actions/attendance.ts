@@ -129,7 +129,6 @@ export const getWebinarAttendance = async (
       }
     }
 
-    // revalidatePath(`/webinars/${webinarId}/pipelines`)
     return {
       success: true,
       data: result,
@@ -138,7 +137,7 @@ export const getWebinarAttendance = async (
       webinarTags: webinar.tags || [],
     }
   } catch (error) {
-    console.log("Failed to fetch  attendance data", error)
+    console.error("Failed to fetch attendance data", error)
     return {
       success: false,
       error: "Failed to fetch attendance data",
@@ -163,12 +162,6 @@ export const registerToWaitingList = async (
       where: {
         id: webinarId,
       },
-      // select:{
-      //     id:true,
-      //     ctaType:true,
-      //     tags:true,
-      //     status: true,
-      // }
     })
     if (!webinar) {
       return {

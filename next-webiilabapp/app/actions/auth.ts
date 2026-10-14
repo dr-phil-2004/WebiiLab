@@ -37,7 +37,7 @@ export async function onAuthenticateUser() {
 
     return { status: 201, user: newUser }
   } catch (error) {
-    console.log("Error", error)
+    console.error("Error authenticating user", error)
     return { status: 500, message: "Internal server error" }
   }
 }

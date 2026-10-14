@@ -145,7 +145,6 @@ const LiveWebinarView = ({
 
   const handleCTAButtonClick = async () => {
     if (channel) {
-      console.log("CTA button clicked", channel)
       await channel.sendEvent({
         type: "open_cta_dialog",
       })

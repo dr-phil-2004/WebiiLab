@@ -30,7 +30,7 @@ const WebinarUpcomingState = ({ webinar, currentUser }: Props) => {
       toast.success("Webinar started successfully")
       router.refresh()
     } catch (error) {
-      console.log(error)
+      console.error(error)
       toast.error("Failed to start webinar")
     } finally {
       setLoading(false)

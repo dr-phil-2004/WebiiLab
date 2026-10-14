@@ -105,10 +105,7 @@ const WaitListComponent = ({
           {buttonText()}
         </Button>
       </DialogTrigger>
-      <DialogContent
-        className="border-0 bg-transparent"
-        isHideCloseButton={true}
-      >
+      <DialogContent className="border-0 bg-transparent" showCloseButton={true}>
         <DialogHeader className="items-center justify-center rounded-xl border border-input bg-background p-4">
           <DialogTitle className="mb-4 text-center text-lg font-semibold">
             {webinarStatus === WebinarStatusEnum.LIVE

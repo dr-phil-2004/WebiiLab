@@ -89,7 +89,6 @@ const Participant = ({ apiKey, callId, webinar }: Props) => {
         currentCall
           .leave()
           .then(() => {
-            console.log("Left the call")
             currentClient?.disconnectUser()
             clientInitialized.current = false
           })

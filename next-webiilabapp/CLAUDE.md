@@ -67,5 +67,7 @@ Formatting is checked too: run `npm run format` before committing.
 ## Known debt (don't copy these patterns)
 
 - `RenderWebinar` currently renders nothing (refactor in progress).
-- `DialogContent`'s `isHideCloseButton={true}` actually **shows** the button.
 - `CountdownTimer` ticks every 50 ms; once a second is enough.
+- The subscription check in `createWebinar` is commented out on purpose:
+  any signed-in user can create webinars. Ask before re-enabling it.
+- Don't leave commented-out code anywhere else: Git keeps the history.

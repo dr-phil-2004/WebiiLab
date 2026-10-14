@@ -9,7 +9,7 @@ export async function GET(request: NextRequest) {
     const state = searchParams.get("state")
 
     if (!code || !state) {
-      console.log("Missing Required Parameters:", { code, state })
+      console.warn("Missing Required Parameters:", { code, state })
       return NextResponse.redirect(
         new URL(
           `settings?success=false&message=Missing+Required+Parameters`,
@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
       )
     }
 
-    console.log("Processing Stripe connect callback :", {
+    console.info("Processing Stripe connect callback:", {
       code,
       stateId: state,
     })
@@ -41,7 +41,7 @@ export async function GET(request: NextRequest) {
           stripeConnectId: response.stripe_user_id,
         },
       })
-      console.log("Successfully  connected  Stripe account :", {
+      console.info("Successfully connected Stripe account:", {
         userId: state,
         stripeConnectId: response.stripe_user_id,
       })

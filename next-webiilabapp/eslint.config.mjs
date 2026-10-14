@@ -32,6 +32,10 @@ const eslintConfig = defineConfig([
         { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
       ],
 
+      // Debug logs leak data (a whole form with user info was logged) and
+      // hide real errors. Use console.error / warn / info on purpose.
+      "no-console": ["error", { allow: ["error", "warn", "info"] }],
+
       // A missing `break` in the Stripe webhook routed checkout sessions into
       // updateSubscription(). Fall-through must be explicit.
       "no-fallthrough": "error",

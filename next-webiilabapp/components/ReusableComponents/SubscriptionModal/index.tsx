@@ -45,18 +45,14 @@ export const SubscriptionModal = ({ user }: Props) => {
         throw new Error("Card element not found")
       }
 
-      const { error, paymentIntent } = await stripe.confirmCardPayment(
-        intent.secret,
-        {
-          payment_method: {
-            card: cardElement,
-          },
-        }
-      )
+      const { error } = await stripe.confirmCardPayment(intent.secret, {
+        payment_method: {
+          card: cardElement,
+        },
+      })
       if (error) {
         throw new Error(error.message)
       }
-      console.log("Payment successful", paymentIntent)
       toast.success("Payment successful")
       router.refresh()
     } catch (error) {

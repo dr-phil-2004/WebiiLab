@@ -31,12 +31,12 @@ export const createWebinar = async (formData: WebinarFormState) => {
       return { status: 401, message: "Unauthorized" }
     }
 
+    // Subscription gate disabled on purpose for now (see CLAUDE.md, Known debt).
     // if(!user.user.subscription){
     //     return{status:402, message: 'Forbidden. Please upgrade to create a webinar'}
     // }
 
     const presentId = user.user.id
-    console.log("FormData :", formData, presentId)
 
     if (!formData.basicInfo.webinarName) {
       return { status: 403, message: "Webinar name is required" }

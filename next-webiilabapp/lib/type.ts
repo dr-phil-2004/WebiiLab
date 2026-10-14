@@ -95,8 +95,10 @@ export type PipelineData = {
     tags: string[]
 }
 
-export type WebinarWithPresenter= Webinar & {
-    presenter: User
+// Matches the `presenter` select in getWebinarById: only these fields are
+// loaded, so only these fields may be read.
+export type WebinarWithPresenter = Webinar & {
+    presenter: Pick<User, 'id' | 'name' | 'profileImage' | 'stripeConnectId'>
 }
 
 export type StreamRecording = {

@@ -2,7 +2,7 @@ import { onAuthenticateUser } from '@/app/actions/auth'
 import { getWebinarByPresenterId } from '@/app/actions/webinar'
 import PageHeader from '@/components/ReusableComponents/PageHeader'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import type { Webinar, WebinarStatusEnum } from '@/lib/generated/prisma/client'
+import type { Webinar } from '@/lib/generated/prisma/client'
 import { HomeIcon, User, Webcam } from 'lucide-react'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
@@ -11,19 +11,19 @@ import WebinarCards from './_components/WebinarCards'
 
 type Props = {
   searchParams:Promise<{
-    webinarStatus:string;
+    webinarStatus?: string
   }>
 }
 
 const page = async ({searchParams}: Props) => {
 
-  const webinarStatus = await searchParams;
+  const { webinarStatus } = await searchParams
     const checkUser = await onAuthenticateUser()
     if(!checkUser.user){
         redirect('/')
     }
 
-    const webinars = await getWebinarByPresenterId(checkUser?.user?.id, webinarStatus as WebinarStatusEnum)
+    const webinars = await getWebinarByPresenterId(checkUser.user.id, webinarStatus)
     
   return (
     <Tabs

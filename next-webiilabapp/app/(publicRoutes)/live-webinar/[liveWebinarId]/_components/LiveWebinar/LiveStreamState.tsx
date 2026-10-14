@@ -1,4 +1,4 @@
-import { User, Webinar } from '@/lib/generated/prisma/client'
+import type { User, Webinar } from '@/lib/generated/prisma/client'
 import { WebinarWithPresenter } from '@/lib/type'
 import {
   LivestreamPlayer,

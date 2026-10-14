@@ -14,7 +14,7 @@ import { toast } from 'sonner'
 type Props = {
     webinarId : string,
     webinarStatus: WebinarStatusEnum
-    onRegistered : ()=> void
+    onRegistered?: () => void
 }
 
 const WaitListComponent = ({webinarId, webinarStatus, onRegistered }: Props) => {
@@ -54,7 +54,7 @@ const WaitListComponent = ({webinarId, webinarStatus, onRegistered }: Props) => 
             )
 
             if(!res.success){
-               throw new Error('Something went wrong'|| res.message) 
+               throw new Error(res.message || 'Something went wrong') 
             }
             if(res.data?.user){
                 setAttendee(res.data.user)

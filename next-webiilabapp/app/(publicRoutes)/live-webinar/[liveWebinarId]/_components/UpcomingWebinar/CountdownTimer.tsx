@@ -76,11 +76,10 @@ const CountdownTimer = ({ targetDate ,
                   days: Math.floor( difference /(1000*60*60*24)),
                   hours: Math.floor( (difference / (1000*60*60)) %24),
                   minutes: Math.floor((difference/(1000*60)) %60),
-                  seconds: Math.floor((difference/1000)%24),
+                  seconds: Math.floor((difference/1000)%60),
                   milliseconds: difference % 1000,
               }
             }
-            setTimeleft(calculateTimeLeft)
             const timer =setInterval(()=>{
                 setTimeleft(calculateTimeLeft)
             }, 50)

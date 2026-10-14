@@ -119,7 +119,7 @@ const page = async ({params}: Props) => {
                         key={columnType}
                         title={formatColumnTitle(columnType)}
                         count={col.count}
-                        users={col.users as any}
+                        users={col.users}
                         tags={pipelineData.webinarTags}
                     />
                 );

@@ -10,7 +10,7 @@ import BasicInfoStep from './BasicInfoStep'
 import CtaStep from './CtaStep'
 import AdditionalInfoStep from './AdditionalInfoStep'
 import { toast } from 'sonner'
-import Stripe from 'stripe'
+import type Stripe from 'stripe'
 
 type Props = {
   stripeProducts: Stripe.Product[] | []
@@ -31,7 +31,7 @@ const CreateWebinarButton = ({stripeProducts}: Props) => {
             id: 'cta',
             title: 'Call to Action',
             description: 'Set up your Call to Action and AI agent details',
-            component: <CtaStep assistants={[]}
+            component: <CtaStep
               stripeProducts={stripeProducts}
             />
         },
@@ -69,14 +69,13 @@ const CreateWebinarButton = ({stripeProducts}: Props) => {
 
   return (
     <Dialog open={isModalOpen} onOpenChange={handleOpenChange}>
-      <DialogTrigger asChild>
-        <Button 
-          className="border border-orange-500/30 text-white font-semibold bg-orange-500/10 hover:bg-orange-500/20 capitalize gap-2 transition-all shadow-md shadow-orange-500/5"
-          onClick={() => setModalOpen(true)}
-        >
-          <PlusIcon className="w-4 h-4 text-orange-500" />
-          Create Webinar
-        </Button>
+      <DialogTrigger
+        render={
+          <Button className="border border-orange-500/30 text-white font-semibold bg-orange-500/10 hover:bg-orange-500/20 capitalize gap-2 transition-all shadow-md shadow-orange-500/5" />
+        }
+      >
+        <PlusIcon className="w-4 h-4 text-orange-500" />
+        Create Webinar
       </DialogTrigger>
       
       <DialogContent className="sm:max-w-[650px] md:max-w-[850px] border-zinc-800 bg-zinc-950/95 text-zinc-100 p-0 overflow-hidden shadow-2xl backdrop-blur-md">
@@ -112,15 +111,14 @@ const CreateWebinarButton = ({stripeProducts}: Props) => {
                     <Copy className="w-4 h-4 mr-1.5" />
                     Copy
                   </Button>
-                  <Button 
-                    size="sm" 
-                    variant="ghost" 
-                    asChild
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    nativeButton={false}
+                    render={<a href={webinarLink} target="_blank" rel="noreferrer" aria-label="Open webinar in a new tab" />}
                     className="h-8 px-2.5 hover:bg-zinc-800 text-zinc-400 hover:text-zinc-200"
                   >
-                    <a href={webinarLink} target="_blank" rel="noreferrer">
-                      <ExternalLink className="w-4 h-4" />
-                    </a>
+                    <ExternalLink className="w-4 h-4" />
                   </Button>
                 </div>
               </div>
@@ -134,14 +132,13 @@ const CreateWebinarButton = ({stripeProducts}: Props) => {
                 >
                   Close Window
                 </Button>
-                <Button 
-                  asChild
+                <Button
+                  nativeButton={false}
+                  render={<a href={webinarLink} target="_blank" rel="noreferrer" />}
                   className="flex-1 bg-orange-500 hover:bg-orange-600 text-white font-semibold gap-2 shadow-lg shadow-orange-500/20"
                 >
-                  <a href={webinarLink} target="_blank" rel="noreferrer">
-                    Go to Webinar Room
-                    <ArrowRight className="w-4 h-4" />
-                  </a>
+                  Go to Webinar Room
+                  <ArrowRight className="w-4 h-4" />
                 </Button>
               </div>
             </div>

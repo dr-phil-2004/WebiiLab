@@ -5,9 +5,7 @@ import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import React from 'react'
 
-type Props = {}
-
-const page = async (props: Props) => {
+const page = async () => {
   const userExists = await onAuthenticateUser()
   if(!userExists.user){
     redirect('/sign-in')

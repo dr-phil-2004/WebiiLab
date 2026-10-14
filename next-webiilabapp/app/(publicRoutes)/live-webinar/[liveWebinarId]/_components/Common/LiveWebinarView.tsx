@@ -3,7 +3,7 @@
 import { WebinarWithPresenter } from '@/lib/type'
 import { Call, ParticipantView, useCallStateHooks } from '@stream-io/video-react-sdk'
 import {  Loader2, MessageSquare, Mic, StopCircle, User, Users } from 'lucide-react'
-import { StreamChat } from 'stream-chat'
+import { StreamChat, type Channel as ChatChannel, type Event as ChatEvent } from 'stream-chat'
 import { Chat, Channel, MessageList, MessageComposer} from 'stream-chat-react'
 import 'stream-chat-react/dist/css/index.css'
 
@@ -38,7 +38,7 @@ const LiveWebinarView = ({showChat, setShowChat, isHost=false, username, userTok
     const viewerCount= useParticipantCount()
     const [chatClient, setChatClient] = useState<StreamChat  | null>(null)
     const [dialogOpen, setDialogOpen] =useState(true)
-    const [channel, setChannel] =useState<any>(null)
+    const [channel, setChannel] =useState<ChatChannel | null>(null)
     const hostParticipant =  participants.length >0 ? participants[0] : null;
     const chatClientRef = useRef<StreamChat | null>(null)
     const [loading, setLoading] = useState(false)
@@ -63,7 +63,7 @@ const LiveWebinarView = ({showChat, setShowChat, isHost=false, username, userTok
 
             const channel = client.channel('livestream', webinar.id, {
                 name: webinar.title,
-            } as any)
+            })
 
             await channel.watch()
 
@@ -89,7 +89,7 @@ const LiveWebinarView = ({showChat, setShowChat, isHost=false, username, userTok
     },[userId, username, userToken, webinar.id, webinar.title])
     useEffect(()=>{
         if(chatClient && channel ){
-            channel.on((event:any)=>{
+            channel.on((event: ChatEvent)=>{
                 if(event?.type === 'open_cta_dialog' && !isHost ){
                     setDialogOpen(true)
                 }

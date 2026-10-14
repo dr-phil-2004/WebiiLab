@@ -3,9 +3,7 @@ import { CircleCheck, Circle, CheckCircle2 } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
 
-type Props = {}
-
-const onBoarding = (props: Props) => {
+const onBoarding = () => {
   const completedCount = onBoardingSteps.filter(step => step.complete).length
   const totalSteps = onBoardingSteps.length
   const progressPercentage = (completedCount / totalSteps) * 100

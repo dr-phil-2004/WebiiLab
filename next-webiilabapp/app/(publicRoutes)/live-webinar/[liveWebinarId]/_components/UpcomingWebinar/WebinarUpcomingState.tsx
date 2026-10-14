@@ -42,7 +42,7 @@ const WebinarUpcomingState = ({webinar, currentUser}: Props) => {
   return <div className="w-full min-h-screen mx-auto max-w-[400px] flex flex-col justify-center items-center gap-8 py-20 ">
     <div className="space-y-8">
         <p className="text-3xl font-semibold text-stone text-center">
-            Seems like you're a little early
+            Seems like you&apos;re a little early
         </p>
         <CountdownTimer
         targetDate={new Date(webinar.startTime)}

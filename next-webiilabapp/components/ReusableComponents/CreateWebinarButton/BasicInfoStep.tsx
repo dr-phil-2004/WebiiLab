@@ -121,7 +121,6 @@ const BasicInfoStep = () => {
                   setCalendarOpen(false)
                 }}
                 disabled={(date) => date < new Date(new Date().setHours(0, 0, 0, 0))}
-                initialFocus
                 className="[--cell-size:--spacing(8)] text-zinc-100"
               />
             </PopoverContent>

@@ -44,7 +44,7 @@ const page = async({params, searchParams}: Props) => {
     apiKey={apiKey}
     token={token}
     callId={callId}
-    user={user}createCheckoutLink
+    user={user}
     userId={userId}
     error={error}
     webinar={webinarData}

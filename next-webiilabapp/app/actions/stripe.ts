@@ -1,5 +1,4 @@
 'use server'
-import React from 'react'
 import { onAuthenticateUser } from './auth'
 import { stripe } from '@/lib/stripe'
 import Stripe from 'stripe'
@@ -51,6 +50,13 @@ export const getAllproductsFromStripe = async () => {
     
 }
 
+// Recent Stripe API versions no longer type `invoice.payment_intent`, but older
+// accounts can still return it, so we read it through this narrow shape.
+type InvoiceWithPaymentIntent = {
+  id?: string
+  payment_intent?: string | Stripe.PaymentIntent | null
+}
+
 export const onGetStripeClientSecret = async (email: string, userId: string) =>{
   try {
     const currentUser = await onAuthenticateUser()
@@ -95,7 +101,10 @@ export const onGetStripeClientSecret = async (email: string, userId: string) =>{
     })
 
     let clientSecret: string | null = null
-    const latestInvoice = subscription.latest_invoice as any
+    const latestInvoice = subscription.latest_invoice as
+      | string
+      | (Stripe.Invoice & InvoiceWithPaymentIntent)
+      | null
 
     if (typeof latestInvoice === 'object' && latestInvoice !== null) {
       if (typeof latestInvoice.payment_intent === 'object' && latestInvoice.payment_intent !== null) {
@@ -112,7 +121,7 @@ export const onGetStripeClientSecret = async (email: string, userId: string) =>{
       if (invoiceId) {
         const invoice = (await stripe.invoices.retrieve(invoiceId, {
           expand: ['payment_intent'],
-        })) as any
+        })) as Stripe.Invoice & InvoiceWithPaymentIntent
 
         if (typeof invoice.payment_intent === 'object' && invoice.payment_intent !== null) {
           clientSecret = invoice.payment_intent.client_secret
@@ -200,6 +209,8 @@ export const createCheckoutLink = async(priceId: string,stripeId: string, attend
       metadata:{
         attendeeId:attendeeId,
         webinarId: webinarId,
+        // Read by the Stripe webhook to route this event to the attendee flow.
+        connectAccountPayments: 'true',
       },
 
     },
@@ -210,7 +221,7 @@ export const createCheckoutLink = async(priceId: string,stripeId: string, attend
 
 )
   if(bookCall){
-    await changeAttendanceType(attendeeId, webinardId, "ADDED_TO_CART")
+    await changeAttendanceType(attendeeId, webinarId, "ADDED_TO_CART")
   }
  return{
   sessionUrl: session.url,

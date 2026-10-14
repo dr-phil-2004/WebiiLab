@@ -1,23 +1,29 @@
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils"
 
 type LogoProps = {
-  className?: string;
-  size?: number;
+  className?: string
+  size?: number
   /** "mark" renders the glyph alone, "badge" wraps it in a rounded tile. */
-  variant?: "mark" | "badge";
-  withWordmark?: boolean;
-  wordmark?: string;
-};
+  variant?: "mark" | "badge"
+  withWordmark?: boolean
+  wordmark?: string
+}
 
 /**
  * Organic, minimalist & aesthetic fluid "W" logo mark with glowing lavender-blue gradients,
  * blurred ambient glow effects, and modern AI futuristic identity.
  */
-function LogoMark({ className, size = 40 }: { className?: string; size?: number }) {
-  const filterId = "w-glow-filter";
-  const gradLavenderBlueId = "lavender-to-blue-grad";
-  const gradVioletCyanId = "violet-to-cyan-grad";
-  const auraGradId = "aura-glow-grad";
+function LogoMark({
+  className,
+  size = 40,
+}: {
+  className?: string
+  size?: number
+}) {
+  const filterId = "w-glow-filter"
+  const gradLavenderBlueId = "lavender-to-blue-grad"
+  const gradVioletCyanId = "violet-to-cyan-grad"
+  const auraGradId = "aura-glow-grad"
 
   return (
     <svg
@@ -32,7 +38,14 @@ function LogoMark({ className, size = 40 }: { className?: string; size?: number 
     >
       <defs>
         {/* Glowing Blur Filter (inspired by modern aesthetic UI icons) */}
-        <filter id={filterId} x="-30%" y="-30%" width="160%" height="160%" filterUnits="userSpaceOnUse">
+        <filter
+          id={filterId}
+          x="-30%"
+          y="-30%"
+          width="160%"
+          height="160%"
+          filterUnits="userSpaceOnUse"
+        >
           <feGaussianBlur stdDeviation="4.5" result="blur" />
           <feMerge>
             <feMergeNode in="blur" />
@@ -41,15 +54,31 @@ function LogoMark({ className, size = 40 }: { className?: string; size?: number 
         </filter>
 
         {/* Soft Lavender (#D8B4FE) to Vibrant Electric Blue (#38BDF8) Gradient */}
-        <linearGradient id={gradLavenderBlueId} x1="15" y1="20" x2="85" y2="80" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#E9D5FF" />   {/* Light Lavender */}
-          <stop offset="30%" stopColor="#C084FC" />  {/* Vivid Lavender Violet */}
-          <stop offset="65%" stopColor="#818CF8" />  {/* Soft Indigo Blue */}
-          <stop offset="100%" stopColor="#38BDF8" /> {/* Futuristic Cyan Blue */}
+        <linearGradient
+          id={gradLavenderBlueId}
+          x1="15"
+          y1="20"
+          x2="85"
+          y2="80"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop offset="0%" stopColor="#E9D5FF" /> {/* Light Lavender */}
+          <stop offset="30%" stopColor="#C084FC" />{" "}
+          {/* Vivid Lavender Violet */}
+          <stop offset="65%" stopColor="#818CF8" /> {/* Soft Indigo Blue */}
+          <stop offset="100%" stopColor="#38BDF8" />{" "}
+          {/* Futuristic Cyan Blue */}
         </linearGradient>
 
         {/* Deep Neon Purple to Bright Sky Blue Accent Gradient */}
-        <linearGradient id={gradVioletCyanId} x1="85" y1="20" x2="15" y2="80" gradientUnits="userSpaceOnUse">
+        <linearGradient
+          id={gradVioletCyanId}
+          x1="85"
+          y1="20"
+          x2="15"
+          y2="80"
+          gradientUnits="userSpaceOnUse"
+        >
           <stop offset="0%" stopColor="#A855F7" />
           <stop offset="50%" stopColor="#6366F1" />
           <stop offset="100%" stopColor="#06B6D4" />
@@ -64,7 +93,14 @@ function LogoMark({ className, size = 40 }: { className?: string; size?: number 
       </defs>
 
       {/* Ambient background blur glow for dark mode aesthetic */}
-      <circle cx="50" cy="50" r="40" fill={`url(#${auraGradId})`} className="animate-pulse" style={{ animationDuration: '4s' }} />
+      <circle
+        cx="50"
+        cy="50"
+        r="40"
+        fill={`url(#${auraGradId})`}
+        className="animate-pulse"
+        style={{ animationDuration: "4s" }}
+      />
 
       {/* Soft Blurred Glow Underlayer */}
       <g filter={`url(#${filterId})`} opacity="0.85">
@@ -97,11 +133,17 @@ function LogoMark({ className, size = 40 }: { className?: string; size?: number 
       />
 
       {/* Futuristic Glowing AI Node Sparks */}
-      <circle cx="50" cy="45" r="3.5" fill="#F3E8FF" filter={`url(#${filterId})`} />
+      <circle
+        cx="50"
+        cy="45"
+        r="3.5"
+        fill="#F3E8FF"
+        filter={`url(#${filterId})`}
+      />
       <circle cx="20" cy="30" r="2.5" fill="#E9D5FF" />
       <circle cx="80" cy="30" r="2.5" fill="#7DD3FC" />
     </svg>
-  );
+  )
 }
 
 export function Logo({
@@ -114,30 +156,38 @@ export function Logo({
   const mark =
     variant === "badge" ? (
       <span
-        className="inline-flex items-center justify-center rounded-2xl bg-zinc-950/90 border border-white/10 shadow-xl backdrop-blur-md"
+        className="inline-flex items-center justify-center rounded-2xl border border-white/10 bg-zinc-950/90 shadow-xl backdrop-blur-md"
         style={{ width: size, height: size }}
       >
         <LogoMark size={Math.round(size * 0.75)} />
       </span>
     ) : (
       <LogoMark size={size} />
-    );
+    )
 
   if (!withWordmark) {
-    return <span className={cn("inline-flex items-center justify-center", className)}>{mark}</span>;
+    return (
+      <span
+        className={cn("inline-flex items-center justify-center", className)}
+      >
+        {mark}
+      </span>
+    )
   }
 
   return (
-    <span className={cn("inline-flex items-center gap-3 select-none", className)}>
+    <span
+      className={cn("inline-flex items-center gap-3 select-none", className)}
+    >
       {mark}
       <span
-        className="font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-purple-200 via-indigo-100 to-blue-200"
+        className="bg-gradient-to-r from-purple-200 via-indigo-100 to-blue-200 bg-clip-text font-bold tracking-tight text-transparent"
         style={{ fontSize: Math.round(size * 0.55) }}
       >
         {wordmark}
       </span>
     </span>
-  );
+  )
 }
 
-export default Logo;
+export default Logo

@@ -33,7 +33,7 @@ const isConnectedAccountEvent = (event: Stripe.Event): boolean => {
   const object = event.data.object as { metadata?: Stripe.Metadata | null }
   return Boolean(
     object.metadata?.connectAccountPayments ||
-      object.metadata?.connectAccountSubscription
+    object.metadata?.connectAccountSubscription
   )
 }
 

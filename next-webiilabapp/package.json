@@ -12,7 +12,8 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "db:generate": "prisma generate",
-    "verify": "npm run db:generate && npm run typecheck && npm run lint && npm run test"
+    "verify": "npm run db:generate && npm run format:check && npm run typecheck && npm run lint && npm run test",
+    "format:check": "prettier --check \"**/*.{ts,tsx}\""
   },
   "dependencies": {
     "@base-ui/react": "^1.6.0",

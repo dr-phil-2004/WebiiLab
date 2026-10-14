@@ -6,7 +6,11 @@ const changeAttendanceType = vi.fn()
 const updateSubscription = vi.fn()
 
 vi.mock("@/lib/stripe", () => ({
-  stripe: { webhooks: { constructEvent: (...args: unknown[]) => constructEvent(...args) } },
+  stripe: {
+    webhooks: {
+      constructEvent: (...args: unknown[]) => constructEvent(...args),
+    },
+  },
 }))
 vi.mock("@/app/actions/attendance", () => ({
   changeAttendanceType: (...args: unknown[]) => changeAttendanceType(...args),
@@ -49,7 +53,11 @@ describe("POST /api/stripe-webhook", () => {
     const res = await POST(request())
 
     expect(res.status).toBe(200)
-    expect(changeAttendanceType).toHaveBeenCalledWith("att_1", "web_1", "CONVERTED")
+    expect(changeAttendanceType).toHaveBeenCalledWith(
+      "att_1",
+      "web_1",
+      "CONVERTED"
+    )
     expect(updateSubscription).not.toHaveBeenCalled()
   })
 
@@ -64,7 +72,11 @@ describe("POST /api/stripe-webhook", () => {
 
     await POST(request())
 
-    expect(changeAttendanceType).toHaveBeenCalledWith("att_2", "web_2", "CONVERTED")
+    expect(changeAttendanceType).toHaveBeenCalledWith(
+      "att_2",
+      "web_2",
+      "CONVERTED"
+    )
     expect(updateSubscription).not.toHaveBeenCalled()
   })
 

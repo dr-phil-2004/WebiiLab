@@ -49,9 +49,9 @@ export const SubscriptionModal = ({user}: Props) => {
             console.log('Payment successful', paymentIntent)
              toast.success('Payment successful')
             router.refresh()
-        } catch (error: any) {
-            console.log('SUBSCRIPTION--->', error)
-            toast.error(error?.message || 'Failed to update subscription')
+        } catch (error) {
+            console.error('SUBSCRIPTION--->', error)
+            toast.error(error instanceof Error ? error.message : 'Failed to update subscription')
             
         }finally{
             setLoading(false)

@@ -1,12 +1,12 @@
 import UserInfoCard from '@/components/UserInfoCard'
 import { Badge } from '@/components/ui/badge'
-import type { Attendee } from '@/lib/generated/prisma/client'
+import type { AttendanceData } from '@/lib/type'
 import React from 'react'
 
 type Props = {
     title: string,
     count: number,
-    users: Attendee[],
+    users: AttendanceData['users'],
     tags: string[]
 
 }

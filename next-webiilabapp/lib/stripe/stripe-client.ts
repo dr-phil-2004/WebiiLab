@@ -1,21 +1,20 @@
-import { loadStripe } from '@stripe/stripe-js'
-import React from 'react'
+import { loadStripe, type Stripe } from "@stripe/stripe-js"
 
-type Props = {}
+// Stripe.js must be loaded once per account: <Elements> does not accept a
+// new promise on re-render, so we cache one promise per (connected) account.
+const stripePromises = new Map<string, Promise<Stripe | null>>()
 
-export const useStripeElements = (connectedAccountId?: string) => {
+export const getStripePromise = (
+  connectedAccountId?: string
+): Promise<Stripe | null> => {
+  const key = connectedAccountId ?? "platform"
+  const cached = stripePromises.get(key)
+  if (cached) return cached
 
-    if(connectedAccountId){
-        const StripePromise = async()=>{
-            await loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ?? '' , {
-                stripeAccount: connectedAccountId,
-            })
-        }
-        return {StripePromise}
-    }
-    const StripePromise = async() =>
-        await loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ?? '')
-    
-    return {StripePromise}
+  const promise = loadStripe(
+    process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ?? "",
+    connectedAccountId ? { stripeAccount: connectedAccountId } : undefined
+  )
+  stripePromises.set(key, promise)
+  return promise
 }
-

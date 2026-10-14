@@ -6,7 +6,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import React from 'react'
 import YellowIcon from '../YellowIcon'
 import CreateWebinarButton from '../CreateWebinarButton'
-import Stripe from 'stripe'
+import type Stripe from 'stripe'
 import { StripeElements } from '@/components/Stripe/Elements'
 import { SubscriptionModal } from '../SubscriptionModal'
 

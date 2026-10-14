@@ -8,9 +8,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import React from 'react'
 
-type Props = {}
-
-const SideBar = (props: Props) => {
+const SideBar = () => {
     const pathname = usePathname()
   return (
     <div className='w-18 sm:w-28 h-screen sticky  top-0  py-10

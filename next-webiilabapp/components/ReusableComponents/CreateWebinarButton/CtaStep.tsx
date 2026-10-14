@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label'
 import { CreditCard, PhoneCall, Sparkles, AlertCircle, Search } from 'lucide-react'
 import { CtaTypeEnum } from '@/lib/generated/prisma/enums'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import Stripe from 'stripe'
+import type Stripe from 'stripe'
 
 const MOCK_AGENTS = [
   { id: 'a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d', name: 'Lead Qualification Agent (Voice & Chat)' },
@@ -45,8 +45,8 @@ const CtaStep = ({stripeProducts}: Props) => {
       updateCTAField('ctaLabel', 'Book a Call')
     }
   }
-  const handleProductChange =(value:string)=>{
-    updateCTAField('priceId',value)
+  const handleProductChange = (value: string | null) => {
+    updateCTAField('priceId', value ?? '')
   }
 
   return (

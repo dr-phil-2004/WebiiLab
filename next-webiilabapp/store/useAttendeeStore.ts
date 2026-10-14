@@ -1,4 +1,4 @@
-import { Attendee } from '@/lib/generated/prisma/client'
+import type { Attendee } from '@/lib/generated/prisma/client'
 import React from 'react'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'

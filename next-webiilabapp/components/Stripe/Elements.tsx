@@ -1,17 +1,16 @@
-import { useStripeElements } from '@/lib/stripe/stripe-client'
-import { Elements } from '@stripe/react-stripe-js'
-import React from 'react'
-import Stripe from 'stripe'
+"use client"
+
+import { getStripePromise } from "@/lib/stripe/stripe-client"
+import { Elements } from "@stripe/react-stripe-js"
+import React from "react"
 
 type Props = {
-    children: React.ReactNode
+  children: React.ReactNode
+  connectedAccountId?: string
 }
 
-export const StripeElements = ({children}: Props) => {
-    const {StripePromise} = useStripeElements()
-    const promise= StripePromise()
-
-  return promise && <Elements stripe={promise as any}>
-    {children}
-  </Elements>
+export const StripeElements = ({ children, connectedAccountId }: Props) => {
+  return (
+    <Elements stripe={getStripePromise(connectedAccountId)}>{children}</Elements>
+  )
 }

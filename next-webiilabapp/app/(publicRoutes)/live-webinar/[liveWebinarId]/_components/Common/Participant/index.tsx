@@ -19,7 +19,7 @@ type Props = {
     webinar: WebinarWithPresenter,
 }
 
-const page = ({apiKey,callId,webinar}: Props) => {
+const Participant = ({apiKey,callId,webinar}: Props) => {
 
     const {attendee} = useAttendeeStore()
     const[showChat, setShowChat]= useState<boolean>(false)
@@ -210,7 +210,7 @@ const page = ({apiKey,callId,webinar}: Props) => {
                 username={attendee?.name}
                 userId={attendee?.id}
                 userToken={token}
-                
+                call={call}
                 />
                 
                 
@@ -222,4 +222,4 @@ const page = ({apiKey,callId,webinar}: Props) => {
 
 
 
-export default page
+export default Participant

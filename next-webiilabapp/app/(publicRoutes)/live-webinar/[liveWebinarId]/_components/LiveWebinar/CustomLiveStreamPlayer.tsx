@@ -22,8 +22,7 @@ const CustomLiveStreamPlayer = ({callId, callType, webinar, token, username, use
         if(!client) return
 
         const myCall= client.call(callType, callId)
-        setCall(myCall)
-              myCall.join({create: true}).then((e)=> setCall(myCall))
+        myCall.join({create: true}).then(()=> setCall(myCall))
       return ()=>{
         // myCall.leave().catch((e)=>{
         //   console.error('Failed to leave', e)
@@ -46,7 +45,8 @@ const CustomLiveStreamPlayer = ({callId, callType, webinar, token, username, use
     username={username}
     userToken={token}
     userId={webinar.presenter.id}
-    webinar={webinar}/>
+    webinar={webinar}
+    call={call}/>
   </StreamCall>
 }
 

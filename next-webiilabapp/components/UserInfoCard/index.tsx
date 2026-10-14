@@ -3,8 +3,15 @@ import { cn } from '@/lib/utils'
 import React from 'react'
 import Image from 'next/image'
 
+// The pipeline only loads id/name/email; avatar and status are optional
+// until the Attendee model stores them.
+export type UserInfoCardCustomer = Pick<Attendee, 'id' | 'name' | 'email'> & {
+    profileImage?: string | null
+    isActive?: boolean
+}
+
 type Props = {
-    customer: Attendee
+    customer: UserInfoCardCustomer
     tags: string[]
     className?: string
 }
@@ -14,7 +21,7 @@ const UserInfoCard = ({ customer, tags, className }: Props) => {
   const initials = customer.name
     ? customer.name
         .split(' ')
-        .map((n) => n[0])
+        .map((n: string) => n[0])
         .join('')
         .toUpperCase()
         .slice(0, 2)

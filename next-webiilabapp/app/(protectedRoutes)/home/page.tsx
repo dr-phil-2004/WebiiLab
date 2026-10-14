@@ -7,9 +7,7 @@ import UserInfoCard from '@/components/UserInfoCard'
 import { potentialCustomer } from '@/lib/data'
 import { cn } from '@/lib/utils'
 
-type Props = {}
-
-const page = (props: Props) => {
+const page = () => {
   return (
     <div className='w-full mx-auto pb-10 space-y-12 px-2 sm:px-6'>
       {/* Hero Section */}

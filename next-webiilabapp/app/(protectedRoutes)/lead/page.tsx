@@ -6,9 +6,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Badge } from '@/components/ui/badge'
 import { leadData } from './_tests_/data'
 
-type Props = {}
-
-const page = (props: Props) => {
+const page = () => {
   return (
     <><div className='w-full flex flex-col gap-8'>
 

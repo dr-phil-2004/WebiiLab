@@ -8,11 +8,12 @@ import useAttendeeStore from '@/store/useAttendeeStore'
 import { toast } from 'sonner'
 import LiveStreamState from './LiveWebinar/LiveStreamState'
 import { StreamRecording, WebinarWithPresenter } from '@/lib/type'
-import Participant from './Common/Participant/page'
+import Participant from './Common/Participant'
 
 type Props = {
     apiKey: string,
-   
+    token: string,
+    callId: string,
     user: User | null,
     userId: string,
     error: string | undefined,

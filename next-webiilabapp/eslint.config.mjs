@@ -1,6 +1,7 @@
 import { defineConfig, globalIgnores } from "eslint/config"
 import nextVitals from "eslint-config-next/core-web-vitals"
 import nextTs from "eslint-config-next/typescript"
+import unusedImports from "eslint-plugin-unused-imports"
 
 // Code that ends up in the browser bundle. Server-only modules must never be
 // imported here: the Prisma client, the secret Stripe/Stream SDKs, server
@@ -20,7 +21,17 @@ const eslintConfig = defineConfig([
   // Rules for the whole app. Each one exists because the mistake already
   // happened in this repo; see CLAUDE.md ("Correction ladder").
   {
+    plugins: { "unused-imports": unusedImports },
     rules: {
+      // Dead code is a false lead for the next agent: it assumes an import or
+      // a variable is there for a reason. `npm run lint -- --fix` removes
+      // unused imports automatically.
+      "unused-imports/no-unused-imports": "error",
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
+      ],
+
       // A missing `break` in the Stripe webhook routed checkout sessions into
       // updateSubscription(). Fall-through must be explicit.
       "no-fallthrough": "error",

@@ -1,6 +1,6 @@
 import React from "react"
 import OnBoarding from "./_components/onBoarding"
-import { Upload, Webcam, Sparkle, BarChart3, TrendingUp } from "lucide-react"
+import { Upload, Webcam, BarChart3, TrendingUp } from "lucide-react"
 import FeatureCard from "./_components/FeatureCard"
 import FeatureSectionLayout from "./_components/FeatureSectionLayout"
 import UserInfoCard from "@/components/UserInfoCard"

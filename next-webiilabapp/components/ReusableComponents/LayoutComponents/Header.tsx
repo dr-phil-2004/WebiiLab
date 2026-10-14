@@ -1,7 +1,7 @@
 "use client"
 import { Button } from "@/components/ui/button"
 import type { User } from "@/lib/generated/prisma/client"
-import { ArrowLeft, CloudLightningIcon, LightbulbIcon, Zap } from "lucide-react"
+import { ArrowLeft, Zap } from "lucide-react"
 import { usePathname, useRouter } from "next/navigation"
 import React from "react"
 import YellowIcon from "../YellowIcon"

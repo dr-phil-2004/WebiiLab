@@ -1,5 +1,5 @@
 import { onBoardingSteps } from "@/lib/data"
-import { CircleCheck, Circle, CheckCircle2 } from "lucide-react"
+import { Circle, CheckCircle2 } from "lucide-react"
 import Link from "next/link"
 import React from "react"
 

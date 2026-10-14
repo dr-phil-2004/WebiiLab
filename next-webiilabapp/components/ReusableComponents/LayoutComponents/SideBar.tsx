@@ -7,7 +7,6 @@ import {
 } from "@/components/ui/tooltip"
 import { sidebarData } from "@/lib/data"
 import { UserButton } from "@clerk/nextjs"
-import { Home } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import React from "react"

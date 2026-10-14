@@ -38,7 +38,7 @@ export const getAllproductsFromStripe = async () => {
       success: true,
     }
   } catch (error) {
-    console.log("Error getting products  from stripe ")
+    console.error("Error getting products from stripe", error)
     return {
       error: " Error getting products form stripe",
       status: 500,

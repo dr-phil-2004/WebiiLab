@@ -4,13 +4,7 @@ import React, { useEffect } from "react"
 import { useWebinarStore } from "@/store/useWebinarStore"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import {
-  CreditCard,
-  PhoneCall,
-  Sparkles,
-  AlertCircle,
-  Search,
-} from "lucide-react"
+import { CreditCard, PhoneCall, Sparkles, Search } from "lucide-react"
 import { CtaTypeEnum } from "@/lib/generated/prisma/enums"
 import {
   Select,
@@ -41,7 +35,7 @@ type Props = {
 
 const CtaStep = ({ stripeProducts }: Props) => {
   const { formData, updateCTAField, validation } = useWebinarStore()
-  const { ctaLabel, tags, aiAgent, priceId, ctaType } = formData.cta
+  const { priceId } = formData.cta
   const errors = validation.cta.errors
 
   // Prefill AI Agent if empty

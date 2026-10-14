@@ -5,14 +5,7 @@ import {
   ParticipantView,
   useCallStateHooks,
 } from "@stream-io/video-react-sdk"
-import {
-  Loader2,
-  MessageSquare,
-  Mic,
-  StopCircle,
-  User,
-  Users,
-} from "lucide-react"
+import { Loader2, MessageSquare, Mic, StopCircle, Users } from "lucide-react"
 import {
   StreamChat,
   type Channel as ChatChannel,
@@ -126,26 +119,29 @@ const LiveWebinarView = ({
       setLoading(false)
     }
   }
+  // call.on() returns an unsubscribe function: without the cleanup, every
+  // re-render added another listener and toasts fired several times.
   useEffect(() => {
-    call.on("call.rtmp_broadcast_started", () => {
-      toast.success("webinar started successfully")
-      router.refresh()
-    })
-    call.on("call.rtmp_broadcast_failed", () => {
-      toast.error("failed to start webinar.Please try again")
-      router.refresh()
-    })
-    call.on("call.rtmp_broadcast_stopped", () => {
-      toast.success("webinar ended successfully")
-      router.refresh()
-    })
-  }, [call])
-  useEffect(() => {
-    call.on("call.ended", () => {
-      toast.success("webinar ended successfully")
-      router.push("/")
-    })
-  }, [call])
+    const unsubscribers = [
+      call.on("call.rtmp_broadcast_started", () => {
+        toast.success("webinar started successfully")
+        router.refresh()
+      }),
+      call.on("call.rtmp_broadcast_failed", () => {
+        toast.error("failed to start webinar.Please try again")
+        router.refresh()
+      }),
+      call.on("call.rtmp_broadcast_stopped", () => {
+        toast.success("webinar ended successfully")
+        router.refresh()
+      }),
+      call.on("call.ended", () => {
+        toast.success("webinar ended successfully")
+        router.push("/")
+      }),
+    ]
+    return () => unsubscribers.forEach((unsubscribe) => unsubscribe())
+  }, [call, router])
 
   const handleCTAButtonClick = async () => {
     if (channel) {

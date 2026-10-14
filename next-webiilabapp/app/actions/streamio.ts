@@ -1,9 +1,8 @@
 "use server"
 import { Attendee, Webinar } from "@/lib/generated/prisma/client"
-import { StringFieldRefInput } from "@/lib/generated/prisma/internal/prismaNamespace"
 import { prismaClient } from "@/lib/prismaClient"
 import { getStreamClient } from "@/lib/stream/getStreamClient"
-import { StreamVideoClient, UserRequest } from "@stream-io/node-sdk"
+import { UserRequest } from "@stream-io/node-sdk"
 
 export const getStreamIoToken = async (attendee: Attendee | null) => {
   try {
@@ -80,8 +79,10 @@ export const createAndStartStream = async (webinar: Webinar) => {
         ],
       },
     })
-    call.goLive()
+    await call.goLive()
     return call
-    console.log("stream created and started successfully ")
-  } catch (error) {}
+  } catch (error) {
+    console.error("Error creating and starting the stream", error)
+    throw error
+  }
 }

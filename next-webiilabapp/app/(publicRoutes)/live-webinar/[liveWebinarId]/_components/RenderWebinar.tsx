@@ -1,14 +1,9 @@
 "use client"
-import type { User, Webinar } from "@/lib/generated/prisma/client"
-import { WebinarStatusEnum } from "@/lib/generated/prisma/enums"
+import type { User } from "@/lib/generated/prisma/client"
 import React, { useEffect } from "react"
-import WebinarUpcomingState from "./UpcomingWebinar/WebinarUpcomingState"
 import { usePathname, useRouter } from "next/navigation"
-import useAttendeeStore from "@/store/useAttendeeStore"
 import { toast } from "sonner"
-import LiveStreamState from "./LiveWebinar/LiveStreamState"
 import { StreamRecording, WebinarWithPresenter } from "@/lib/type"
-import Participant from "./Common/Participant"
 
 type Props = {
   apiKey: string
@@ -21,23 +16,17 @@ type Props = {
   recording?: StreamRecording | null
 }
 
-const RenderWebinar = ({
-  apiKey,
-  recording,
-  user,
-  userId,
-  error,
-  webinar,
-}: Props) => {
+// Refactor in progress: only `error` is used for now; the other props are
+// already passed by the page for the upcoming live/upcoming/ended views.
+const RenderWebinar = ({ error }: Props) => {
   const router = useRouter()
   const pathname = usePathname()
-  const { attendee } = useAttendeeStore()
   useEffect(() => {
     if (error) {
       toast.error(error)
       router.push(pathname)
     }
-  }, [error])
+  }, [error, pathname, router])
   return <React.Fragment></React.Fragment>
 }
 

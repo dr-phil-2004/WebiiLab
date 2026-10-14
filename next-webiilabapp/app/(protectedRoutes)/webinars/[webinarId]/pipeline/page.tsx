@@ -1,6 +1,5 @@
 import { getWebinarAttendance } from "@/app/actions/attendance"
 import PageHeader from "@/components/ReusableComponents/PageHeader"
-import { AttendedTypeEnum } from "@/lib/generated/prisma/enums"
 import { AttendanceData } from "@/lib/type"
 import { HomeIcon, User } from "lucide-react"
 import React from "react"

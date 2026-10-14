@@ -3,7 +3,6 @@ import { getStripeOAuthLink } from "@/lib/stripe/utils"
 import {
   LucideAlertCircle,
   LucideArrowRight,
-  LucideCheckCircle,
   LucideCheckCircle2,
 } from "lucide-react"
 import Link from "next/link"

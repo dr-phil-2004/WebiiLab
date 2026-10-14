@@ -23,7 +23,6 @@ const CustomLiveStreamPlayer = ({
   webinar,
   token,
   username,
-  userId,
 }: Props) => {
   const client = useStreamVideoClient()
   const [call, setCall] = useState<Call>()

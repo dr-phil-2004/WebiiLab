@@ -10,7 +10,6 @@ import {
   Loader2,
   ChevronLeft,
 } from "lucide-react"
-import { Separator } from "@/components/ui/separator"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { createWebinar } from "@/app/actions/webinar"

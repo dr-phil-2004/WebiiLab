@@ -1,5 +1,3 @@
-import Signup from "@/app/(auth)/sign-up/[[...sign-up]]/page"
-import { Button } from "@/components/ui/button"
 import Link from "next/link"
 
 export default function Page() {

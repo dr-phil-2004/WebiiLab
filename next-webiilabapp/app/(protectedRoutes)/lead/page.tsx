@@ -1,5 +1,5 @@
 import PageHeader from "@/components/ReusableComponents/PageHeader"
-import { PipetteIcon, User, Webcam } from "lucide-react"
+import { User, Webcam } from "lucide-react"
 import React from "react"
 import { PipelineIcon } from "../webinars/[webinarId]/pipeline/page"
 import {

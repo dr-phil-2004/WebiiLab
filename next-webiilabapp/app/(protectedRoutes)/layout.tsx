@@ -1,6 +1,5 @@
 import React from "react"
 import { redirect } from "next/navigation"
-import { auth } from "@clerk/nextjs/server"
 import SideBar from "@/components/ReusableComponents/LayoutComponents/SideBar"
 import Header from "@/components/ReusableComponents/LayoutComponents/Header"
 import { onAuthenticateUser } from "../actions/auth"
